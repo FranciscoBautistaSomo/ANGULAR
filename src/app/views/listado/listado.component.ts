@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Entrada } from 'src/app/shared/interfaces/interfaces';
+import { EntradaService } from '../../shared/services/entrada.service';
 
 @Component({
   selector: 'app-listado',
@@ -8,12 +9,10 @@ import { Entrada } from 'src/app/shared/interfaces/interfaces';
 })
 export class ListadoComponent implements OnInit{
   
-  public listadoEntradas: Entrada[];
-
-
+  public listadoEntradas: any;
   
-  constructor(){
-    this.listadoEntradas = [
+  constructor(private entradaService: EntradaService){
+    /**this.listadoEntradas = [
       {
         titulo: 'Introducción a Angular',
         resumen: 'En esta lección realizaremos una pequeña introducción'
@@ -26,12 +25,25 @@ export class ListadoComponent implements OnInit{
         titulo: 'Componentes en Angular',
         resumen: 'Aprendemos a usar los componentes en Angular'
       },
-    ]
-
-
+    ]*/
   } 
   
   ngOnInit(): void {
+    this.recuperarEntradas();
+  }
+
+  private recuperarEntradas(): void{
+    this.entradaService.recuperarEntradas().subscribe(
+      (data) =>{
+          this.listadoEntradas = data;
+      },
+      (error) =>{
+
+      },
+      () => {
+
+      }
+    )
     
   }
 
